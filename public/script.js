@@ -13,7 +13,21 @@ let LATAM = ['KRÜ Esports'];
 let JP = ['Crazy Raccoon'];
 
 var pool1, pool2, pool3, pool4;
-var g1, g2, g3, g4;
+var groups;
+var rCnt = {
+    'NA': 0,
+    'EMEA': 0,
+    'KR': 0,
+    'BR': 0,
+    'SEA': 0,
+    'LATAM': 0,
+    'JP': 0
+};
+var regCnt1 = {},
+    regCnt2 = {},
+    regCnt3 = {},
+    regCnt4 = {},
+    regCnt = {};
 
 function makePools() {
     pool1 = [{
@@ -109,79 +123,86 @@ function getRandVal(size) {
     return Math.floor(Math.random() * size);
 }
 
-
-function getTeam(pool, regCnt) {
-
-    var team = {};
-    var itr = 0;
-    do {
-        itr++;
-        if (team) {
-            regCnt[team.r]--;
-        }
-        var idx = getRandVal(pool.length);
-        team.r = pool[idx].r;
-        team.name = getReg(team.r)[pool[idx].p];
-        regCnt[team.r]++;
-    }
-    while (isItNotOk(regCnt) && itr <= pool.length);
-
-    if (itr > pool.length) {
-        return;
-    }
-
-    pool.splice(idx, 1);
-
-    return team;
-}
-
 function isItNotOk(regCnt) {
     for (r in regCnt) {
         if (regCnt[r] > 1) {
             return true;
         }
-
     }
     return false;
 }
 
-function randGrps() {
-    let regCnt = {
-        'NA': 0,
-        'EMEA': 0,
-        'KR': 0,
-        'BR': 0,
-        'SEA': 0,
-        'LATAM': 0,
-        'JP': 0
-    };
-    var group = [];
-
-    let t1, t2, t3, t4;
-    t1 = getTeam(pool1, regCnt);
-    t2 = getTeam(pool2, regCnt);
-    t3 = getTeam(pool3, regCnt);
-    t4 = getTeam(pool4, regCnt);
-
-    if (t1 == null || t2 == null || t3 == null || t4 == null) {
-        return;
+function addTeam(pool, gfill) {
+    if (pool.length == 0) {
+        return true;
     }
 
-    group.push(t1.name, t2.name, t3.name, t4.name);
+    var idx = getRandVal(pool.length);
+    var team = pool[idx];
+    pool.splice(idx, 1);
 
-    return group;
+    for (let i = 0; i < 4; i++) {
+        if (gfill[i]) {
+            continue;
+        }
+        if(team.r == 'SEA' && team.p == 0)
+        {
+            if(groups[i].includes('Team Vikings'))
+            {
+                continue;
+            }
+        }
+
+        (regCnt[i])[team.r]++;
+        if (isItNotOk(regCnt[i])) {
+            regCnt[i][team.r]--;
+            continue;
+        }
+        groups[i].push(getReg(team.r)[team.p]);
+        gfill[i] = true;
+        if (!addTeam(pool, gfill)) {
+            regCnt[i][team.r]--;
+            groups[i].pop();
+            gfill[i] = false;
+            continue;
+        }
+        return true;
+    }
+    pool.push(team);
+    return false;
 }
 
-function getGrps() {
-    makePools();
-    g1 = randGrps();
-    g2 = randGrps();
-    g3 = randGrps();
-    g4 = randGrps();
+function fillGrp(pool) {
+    var gfill = [false, false, false, false];
+    addTeam(pool,gfill);
+}
 
-    if (g1 == null || g2 == null || g3 == null || g4 == null) {
-        getGrps();
-    }
+function clearData() {
+    groups = [
+        [],
+        [],
+        [],
+        []
+    ];
+    regCnt1 = JSON.parse(JSON.stringify(rCnt));
+    regCnt2 = JSON.parse(JSON.stringify(rCnt));
+    regCnt3 = JSON.parse(JSON.stringify(rCnt));
+    regCnt4 = JSON.parse(JSON.stringify(rCnt));
+    regCnt = {
+        0: regCnt1,
+        1: regCnt2,
+        2: regCnt3,
+        3: regCnt4
+    };
+}
+
+function drawGrps() {
+    makePools();
+    clearData();
+    fillGrp(pool1);
+    fillGrp(pool2);
+    fillGrp(pool3);
+    fillGrp(pool4);
 }
 
 function addToList(group, list) {
@@ -194,9 +215,9 @@ function addToList(group, list) {
 }
 
 draw.click(() => {
-    getGrps();
-    addToList(g1, listA);
-    addToList(g2, listB);
-    addToList(g3, listC);
-    addToList(g4, listD);
+    drawGrps();
+    addToList(groups[0], listA);
+    addToList(groups[1], listB);
+    addToList(groups[2], listC);
+    addToList(groups[3], listD);
 })
