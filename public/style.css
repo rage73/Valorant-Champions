@@ -1,0 +1,122 @@
+@font-face {
+    font-family: "Tungsten-Bold"; 
+    src: url("./fonts/Tungsten-Bold.woff2");
+}
+@font-face {
+    font-family: "Charter"; 
+    src: url("./fonts/charter_regular-webfont.woff");
+}
+
+* {
+    margin:0;
+    padding:0;
+}
+
+html{
+    height: 100%;
+}
+
+body {
+    background-color: #ece8e1;
+
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.heading {
+    font-family: Tungsten-Bold,arial,georgia,sans-serif;
+    font-size: 45pt;
+    text-align: center;
+    margin: 15px 0;
+}
+
+div {
+    font-size: 1.1rem;
+    line-height: 1.4;
+    font-family: Charter,arial,georgia,sans-serif;
+}
+
+.groups h3, .groups li {
+    color: black;
+}
+
+.text {
+    color: #768079;
+    margin: 10px;
+}
+
+.text ul {
+    margin-left: 30px;
+}
+
+.pools {
+    margin: 10px;
+    width: calc(100% - 20px);
+}
+.pools ul {
+    margin-left: 30px; 
+}
+
+.drawBtn {
+    margin: 10px 0;
+    height: 40px;
+}
+
+.draw {
+    text-align: center;
+    font-size: 15pt;
+    padding: 5px;
+    font-family: Charter,arial,georgia,sans-serif;
+}
+
+
+.groups {
+    width: 100%;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.grp {
+    width: 25%;
+    text-align: center;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.grp ul {
+    text-align: left;
+}
+
+footer {
+    background-color: #111;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    padding: 10px 0;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: Charter,arial,georgia,sans-serif;
+    color: #7e7e7e;
+    margin-top: auto;
+    font-size: 12pt;
+}
+
+footer i {
+    color: #7e7e7e;
+    font-size: 12pt;
+}
+
+@media (max-width: 650px) {
+    .grp {
+        width: 50%;
+        margin: 10px 0;
+    }
+    .grp ul {
+        text-align: center;
+    }
+}

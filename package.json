@@ -1,0 +1,24 @@
+{
+  "name": "valorant-champions",
+  "version": "1.0.0",
+  "description": "This project finds possible groups for Valorant Champions tournament according to the rules given by Riot Games. View it [here](https://valorant-masters.herokuapp.com/)",
+  "main": "node server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rage73/Valorant-Champions.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rage73/Valorant-Champions/issues"
+  },
+  "homepage": "https://github.com/rage73/Valorant-Champions#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {}
+}
